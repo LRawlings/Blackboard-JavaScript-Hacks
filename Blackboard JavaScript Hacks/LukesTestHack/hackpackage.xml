@@ -1,0 +1,8 @@
+<hackpackage>
+  <name>Luke&apos;s Test Hack</name>
+  <identifier>LukesTestHack</identifier>
+  <description>Luke&apos;s Test Hack</description>
+  <hook>jsp.topFrame.start</hook>
+  <restrictions/>
+  <resources/>
+</hackpackage>

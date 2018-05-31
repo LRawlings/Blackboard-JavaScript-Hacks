@@ -1,0 +1,110 @@
+<script type="text/javascript">
+
+setTimeout(function() {
+  
+if(window.location.href.indexOf("editCourseEnrollment") > -1 && (document.getElementById('pageTitleText').innerHTML.indexOf("MD") > -1 || document.getElementById('pageTitleText').innerHTML.indexOf("CS") > -1)){
+    
+    
+    document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", ' \
+		<style> \
+		a.close::before { \
+			content: "" !important; \
+		} \
+		\
+		.modalDialog { \
+			position: fixed; \
+			font-family: Arial, Helvetica, sans-serif; \
+			top: 0; \
+			right: 0; \
+			bottom: 0; \
+			left: 0; \
+			background: rgba(0, 0, 0, 0.8); \
+			z-index: 99999; \
+			opacity:0; \
+			-webkit-transition: opacity 400ms ease-in; \
+			-moz-transition: opacity 400ms ease-in; \
+			transition: opacity 400ms ease-in; \
+			pointer-events: none; \
+		} \
+		\
+		.modalDialog:target { \
+			opacity:1; \
+			pointer-events: auto; \
+		} \
+		\
+		.modalDialog > div { \
+			width: 400px; \
+			position: relative; \
+			margin: 10% auto; \
+			padding: 5px 20px 13px 20px; \
+			border-radius: 10px; \
+			background: #fff; \
+			background: -moz-linear-gradient(#fff, #999); \
+			background: -webkit-linear-gradient(#fff, #999); \
+			background: -o-linear-gradient(#fff, #999); \
+		} \
+		\
+		.close { \
+			background: #606061; \
+			color: #FFFFFF; \
+			line-height: 25px; \
+			position: absolute; \
+			right: -12px !important; \
+			opacity: 1 !important; \
+			text-align: center; \
+			top: -10px !important; \
+			width: 24px; \
+			text-decoration: none; \
+			font-weight: bold; \
+			-webkit-border-radius: 12px; \
+			-moz-border-radius: 12px; \
+			border-radius: 12px;-moz-box-shadow: 1px 1px 3px #000; \
+			-webkit-box-shadow: 1px 1px 3px #000; \
+			box-shadow: 1px 1px 3px #000; \
+		} \
+		.close:hover { \
+			background: #00d9ff; \
+		} \
+		\
+		@media only screen and (max-width: 470px) { \
+			.modalDialog > div { \
+				width: 220px; \
+				position: relative; \
+				margin: 10% auto; \
+				padding: 5px 20px 13px 20px; \
+				border-radius: 10px; \
+			} \
+		</style> \
+	');
+        
+    document.getElementById("stepcontent1").insertAdjacentHTML("beforeend", ' \
+		<div id="openModal" class="modalDialog"> \
+			<div> \
+				<a href="#close" title="Close" class="close">X</a> \
+				<h2>How to enrol Additional Tutors</h2> \
+				<p>To enrol additional tutors to this course, please use the  <a href="https://evision.bathspa.ac.uk/" target="_blank">e:vision tool</a> \
+			</div> \
+		</div> \
+	');
+
+    document.getElementById("stepcontent1").insertAdjacentHTML("beforeend", ' \
+		<div> \
+			<h2 class="steptitle">How to enrol Additional Tutors</h2> \
+			<p>To enrol additional tutors to this course, please use the  <a href="https://evision.bathspa.ac.uk/" target="_blank">e:vision tool</a> \
+		</div> \
+	');
+    
+    window.location.href = "#openModal";
+    
+	var rolesMenu = document.getElementById("courseRoleId");
+	var rolesOptions = ["T", "P", "S", "ExternalExaminer"];
+	
+	for (var i=rolesMenu.length-1; i>=0; i--){
+		if (rolesOptions.indexOf(rolesMenu.options[i].value) !== -1 )
+		rolesMenu.remove(i);
+	}
+	
+}
+
+}, 100);
+</script>
