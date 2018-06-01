@@ -1,0 +1,18 @@
+<hackpackage>
+  <name>Disable Course Copy Options</name>
+  <identifier>DisableCourseCopyOps</identifier>
+  <description>Disable certain option when doing a course copy</description>
+  <version>1</version>
+  <developerName>Luke Rawlings</developerName>
+  <developerInstitution>Bath Spa University</developerInstitution>
+  <developerEmail>l.rawlings@bathspa.ac.uk</developerEmail>
+  <hook>jsp.topFrame.start</hook>
+  <restrictions>
+    <restriction>
+      <type>SYSTEM_ROLE</type>
+      <value>Z</value>
+      <inverse>true</inverse>
+    </restriction>
+  </restrictions>
+  <resources/>
+</hackpackage>

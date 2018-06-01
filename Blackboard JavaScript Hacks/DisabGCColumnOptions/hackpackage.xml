@@ -1,0 +1,18 @@
+<hackpackage>
+  <name>Disable Grade Center Column Options</name>
+  <identifier>DisabGCColumnOptions</identifier>
+  <description>Disable Certain Grade Center Column Options</description>
+  <version>1</version>
+  <developerName>Luke Rawlings</developerName>
+  <developerInstitution>Bath Spa University</developerInstitution>
+  <developerEmail>l.rawlings@bathspa.ac.uk</developerEmail>
+  <hook>jsp.topFrame.start</hook>
+  <restrictions>
+    <restriction>
+      <type>SYSTEM_ROLE</type>
+      <value>Z</value>
+      <inverse>true</inverse>
+    </restriction>
+  </restrictions>
+  <resources/>
+</hackpackage>

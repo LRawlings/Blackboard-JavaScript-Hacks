@@ -1,0 +1,18 @@
+<script type="text/javascript">
+
+setTimeout(function() {
+  
+pageTitle = document.getElementById('pageTitleText').innerHTML
+
+if(pageTitle.indexOf("Create Weighted Column") > -1 || pageTitle.indexOf("Create Total Column") > -1 || pageTitle.indexOf("Create Average Column") > -1 || pageTitle.indexOf("Create Minimum/Maximum Column") > -1){
+    document.getElementById('scorableYes').value = true;
+    document.getElementById('scorableYes').parentElement.disabled = true;
+}
+
+if(pageTitle.indexOf("Create Grade Column") > -1 || pageTitle.indexOf("Edit Column") > -1){
+	document.getElementById('scrollableYes').value = true;
+    document.getElementById('scrollableYes').parentElement.disabled = true;
+}
+
+}, 100);
+</script>

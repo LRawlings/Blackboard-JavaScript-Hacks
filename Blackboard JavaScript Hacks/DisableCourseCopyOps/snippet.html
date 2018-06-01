@@ -1,0 +1,31 @@
+<script type="text/javascript">
+
+setTimeout(function() {
+    
+if(window.location.href.indexOf("cp_copy_content") > -1){
+    
+    //the settings to disable by ID
+    var settings = ["gradebookItems_id", "membership", "settings_id", "availability_id", "bannerImage_id", "allow_guests_id", "allow_observers_id", "duration_id", "enrollment_id", "language_pack_id", "navSettings_id"];
+    
+    var labels = document.querySelectorAll("label");
+    
+    for (var i=0; i<labels.length; i++){
+        if (labels[i].innerHTML.indexOf("Assessment") !== -1){
+            labels[i].previousElementSibling.disabled = true;
+            assesmentLabel = i;
+        }
+    }
+    
+    document.getElementById('content_id').addEventListener("click", function(e) {
+        labels[assesmentLabel].previousElementSibling.checked = false;
+    });
+    
+    for (var i=0; i<settings.length; i++){
+            settingsCheckbox = document.getElementById(settings[i]);
+		    settingsCheckbox.disabled = true;
+		    settingsCheckbox.checked = false;
+	    }
+    
+}
+}, 100);
+</script>
