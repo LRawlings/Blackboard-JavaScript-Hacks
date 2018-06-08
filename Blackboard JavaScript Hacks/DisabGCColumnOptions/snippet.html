@@ -11,7 +11,12 @@ if(pageTitle.indexOf("Create Weighted Column") > -1 || pageTitle.indexOf("Create
 
 if(pageTitle.indexOf("Create Grade Column") > -1 || pageTitle.indexOf("Edit Column") > -1){
 	document.getElementById('scrollableYes').value = true;
-    document.getElementById('scrollableYes').parentElement.disabled = true;
+    document.getElementById('scrollableYes').parentElement.disabled = true
+}
+
+if(pageTitle.indexOf("Create Assignment") > -1){
+    document.getElementById('gradingOptions_includeInCalcId').value = "true";
+    document.getElementById('gradingOptions_includeInCalcId').disabled = true;
 }
 
 }, 100);

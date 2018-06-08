@@ -1,0 +1,18 @@
+<script type="text/javascript">
+
+setTimeout(function() {
+  
+    pageTitle = document.getElementById('pageTitleText').innerHTML
+
+    if(pageTitle.indexOf("Create Grade Column") > -1 || pageTitle.indexOf("Edit Column") > -1){
+        document.getElementById('pointsDisplay').value = 100;
+        document.getElementById('pointsDisplay').disabled = true;
+    }
+    
+    if(pageTitle.indexOf("Create Assignment") > -1){
+        document.getElementById('possible').value = 100;
+        document.getElementById('possible').disabled = true;
+    }
+
+}, 100);
+</script>
