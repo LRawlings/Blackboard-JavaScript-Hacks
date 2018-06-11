@@ -1,11 +1,11 @@
 <script type="text/javascript">
+setTimeout(function () {
 
-setTimeout(function() {
-  
-if(window.location.href.indexOf("editCourseEnrollment") > -1 && (document.getElementById('pageTitleText').innerHTML.indexOf("MD") > -1 || document.getElementById('pageTitleText').innerHTML.indexOf("CS") > -1)){
-    
-    
-    document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", ' \
+    //only run this javaScript if the URL containbs 'editCourseEnrollment' and the page title includes either MD or CS
+    if (window.location.href.indexOf("editCourseEnrollment") > -1 && (document.getElementById('pageTitleText').innerHTML.indexOf("MD") > -1 || document.getElementById('pageTitleText').innerHTML.indexOf("CS") > -1)) {
+
+        //insert thhe following CSS into the header
+        document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", ' \
 		<style> \
 		a.close::before { \
 			content: "" !important; \
@@ -76,8 +76,9 @@ if(window.location.href.indexOf("editCourseEnrollment") > -1 && (document.getEle
 			} \
 		</style> \
 	');
-        
-    document.getElementById("stepcontent1").insertAdjacentHTML("beforeend", ' \
+
+        //insert the following HTML block before the 'stepcontent1' element. This block is for the popup 'modal'
+        document.getElementById("stepcontent1").insertAdjacentHTML("beforeend", ' \
 		<div id="openModal" class="modalDialog"> \
 			<div> \
 				<a href="#close" title="Close" class="close">X</a> \
@@ -87,24 +88,28 @@ if(window.location.href.indexOf("editCourseEnrollment") > -1 && (document.getEle
 		</div> \
 	');
 
-    document.getElementById("stepcontent1").insertAdjacentHTML("beforeend", ' \
+        //insert the following HTML block before the 'stepcontent1' element. This block will apear towards the bottom of the page
+        document.getElementById("stepcontent1").insertAdjacentHTML("beforeend", ' \
 		<div> \
 			<h2 class="steptitle">How to enrol Additional Tutors</h2> \
 			<p>To enrol additional tutors to this course, please use the  <a href="https://evision.bathspa.ac.uk/" target="_blank">e:vision tool</a> \
 		</div> \
 	');
-    
-    window.location.href = "#openModal";
-    
-	var rolesMenu = document.getElementById("courseRoleId");
-	var rolesOptions = ["T", "P", "S", "ExternalExaminer"];
-	
-	for (var i=rolesMenu.length-1; i>=0; i--){
-		if (rolesOptions.indexOf(rolesMenu.options[i].value) !== -1 )
-		rolesMenu.remove(i);
-	}
-	
-}
 
+        //set the 'modal' popup href
+        window.location.href = "#openModal";
+
+        //set the roleMenu variable equal to the role dropdown menu ID 
+        var rolesMenu = document.getElementById("courseRoleId");
+
+        //set the roles you wish to remove
+        var rolesOptions = ["T", "P", "S", "ExternalExaminer"];
+
+        // from the end of the rolesMenu options up removing any that are listed on the rolesOptions array
+        for (var i = rolesMenu.length - 1; i >= 0; i--) {
+            if (rolesOptions.indexOf(rolesMenu.options[i].value) !== -1)
+                rolesMenu.remove(i);
+        }
+    }
 }, 100);
 </script>

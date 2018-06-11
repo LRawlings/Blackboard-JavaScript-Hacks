@@ -1,23 +1,24 @@
 <script type="text/javascript">
-
-setTimeout(function() {
-  
-pageTitle = document.getElementById('pageTitleText').innerHTML
-
-if(pageTitle.indexOf("Create Weighted Column") > -1 || pageTitle.indexOf("Create Total Column") > -1 || pageTitle.indexOf("Create Average Column") > -1 || pageTitle.indexOf("Create Minimum/Maximum Column") > -1){
-    document.getElementById('scorableYes').value = true;
-    document.getElementById('scorableYes').parentElement.disabled = true;
-}
-
-if(pageTitle.indexOf("Create Grade Column") > -1 || pageTitle.indexOf("Edit Column") > -1){
-	document.getElementById('scrollableYes').value = true;
-    document.getElementById('scrollableYes').parentElement.disabled = true
-}
-
-if(pageTitle.indexOf("Create Assignment") > -1){
-    document.getElementById('gradingOptions_includeInCalcId').value = "true";
-    document.getElementById('gradingOptions_includeInCalcId').disabled = true;
-}
-
+setTimeout(function () {
+    //set the pageTitle variable equal to the page title
+    pageTitle = document.getElementById('pageTitleText').innerHTML
+    //only run the following javaScrip if the page title is 'Create Weighted Column', 'Create Total Column', 'Create Average Column', 'Create Minimum/Maximum Column' or 'Edit Weighted Column'
+    if (pageTitle.indexOf("Create Weighted Column") > -1 || pageTitle.indexOf("Create Total Column") > -1 || pageTitle.indexOf("Create Average Column") > -1 || pageTitle.indexOf("Create Minimum/Maximum Column") > -1 || pageTitle.indexOf("Edit Weighted Column") > -1) {
+        //force the new anbd existing calculated columns to be included in Grade Center calculations
+        document.getElementById('scorableYes').value = true;
+        document.getElementById('scorableYes').parentElement.disabled = true;
+    }
+    //only run the following javaScrip if the page title is 'Create Grade Column', or 'Edit Column'
+    if (pageTitle.indexOf("Create Grade Column") > -1 || pageTitle.indexOf("Edit Column") > -1) {
+        //force the new and existing grade center columns to be included in Grade Center calculations
+        document.getElementById('scrollableYes').value = true;
+        document.getElementById('scrollableYes').parentElement.disabled = true
+    }
+    //only run the following javaScrip if the page title is 'Create Assignment' (new Blackboard assignment)
+    if (pageTitle.indexOf("Create Assignment") > -1) {
+        //force new assignments to be included in Grade Center calculations
+        document.getElementById('gradingOptions_includeInCalcId').value = "true";
+        document.getElementById('gradingOptions_includeInCalcId').disabled = true;
+    }
 }, 100);
 </script>

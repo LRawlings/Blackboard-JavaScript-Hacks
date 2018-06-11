@@ -1,7 +1,7 @@
 <hackpackage>
-  <name>Force Grade Center Columns Points Possiable 100</name>
-  <identifier>ForcePointsP0ss100</identifier>
-  <description>Force New and Existing Grade Center Columns to set Points Possiable = 100</description>
+  <name>Lock down GJ Column Mapping Screen</name>
+  <identifier>lockGJColumnMapping</identifier>
+  <description>Block various changes when mapping GJ columns and force points possiable to 100 for all mapped columns.</description>
   <version>1</version>
   <developerName>Luke Rawlings</developerName>
   <developerInstitution>Bath Spa University</developerInstitution>
