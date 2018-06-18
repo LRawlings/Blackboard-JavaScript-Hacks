@@ -1,10 +1,9 @@
-<script type="text/javascript">
+<script>
 setTimeout(function () {
+    // Only run this javaScript if the URL contains "editCourseEnrollment" and the page title includes either MD or CS
+    if (window.location.href.indexOf("editCourseEnrollment") > -1 && (document.getElementById("pageTitleText").innerHTML.indexOf("MD") > -1 || document.getElementById("pageTitleText").innerHTML.indexOf("CS") > -1)) {
 
-    //only run this javaScript if the URL containbs 'editCourseEnrollment' and the page title includes either MD or CS
-    if (window.location.href.indexOf("editCourseEnrollment") > -1 && (document.getElementById('pageTitleText').innerHTML.indexOf("MD") > -1 || document.getElementById('pageTitleText').innerHTML.indexOf("CS") > -1)) {
-
-        //insert thhe following CSS into the header
+        // Insert the following CSS into the header
         document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", ' \
 		<style> \
 		a.close::before { \
@@ -77,7 +76,7 @@ setTimeout(function () {
 		</style> \
 	');
 
-        //insert the following HTML block before the 'stepcontent1' element. This block is for the popup 'modal'
+        // Insert the following HTML block before the "stepcontent1" element. This block is for the popup "modal"
         document.getElementById("stepcontent1").insertAdjacentHTML("beforeend", ' \
 		<div id="openModal" class="modalDialog"> \
 			<div> \
@@ -88,7 +87,7 @@ setTimeout(function () {
 		</div> \
 	');
 
-        //insert the following HTML block before the 'stepcontent1' element. This block will apear towards the bottom of the page
+        // Insert the following HTML block before the "stepcontent1" element. This block will appear towards the bottom of the page
         document.getElementById("stepcontent1").insertAdjacentHTML("beforeend", ' \
 		<div> \
 			<h2 class="steptitle">How to enrol Additional Tutors</h2> \
@@ -96,16 +95,16 @@ setTimeout(function () {
 		</div> \
 	');
 
-        //set the 'modal' popup href
+        // Set the "modal" popup href
         window.location.href = "#openModal";
 
-        //set the roleMenu variable equal to the role dropdown menu ID 
+        // Set the roleMenu variable equal to the role dropdown menu ID 
         var rolesMenu = document.getElementById("courseRoleId");
 
-        //set the roles you wish to remove
-        var rolesOptions = ["T", "P", "S", "ExternalExaminer"];
+        // Set the roles you wish to remove
+        var rolesOptions = ["T", "P", "S"];
 
-        // from the end of the rolesMenu options up removing any that are listed on the rolesOptions array
+        // From the end of the rolesMenu options up removing any that are listed on the rolesOptions array
         for (var i = rolesMenu.length - 1; i >= 0; i--) {
             if (rolesOptions.indexOf(rolesMenu.options[i].value) !== -1)
                 rolesMenu.remove(i);

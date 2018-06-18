@@ -1,33 +1,33 @@
-<script type="text/javascript">
+<script>
 setTimeout(function () {
-    //only run this javaScript if the URL contains 'cp_copy_content'
+    // Only run this javaScript if the URL contains "cp_copy_content"
     if (window.location.href.indexOf("cp_copy_content") > -1) {
-        //create an array 'settings' with the ID's of all the settings we wish to lock down
+        // Create an array "settings" with the ID's of all the settings we wish to lock down
         var settings = ["gradebookItems_id", "membership", "settings_id", "availability_id", "bannerImage_id", "allow_guests_id", "allow_observers_id", "duration_id", "enrollment_id", "language_pack_id", "navSettings_id"];
-        //create an array of all the 'label' elements on the page
+        // Create an array of all the 'label' elements on the page
         var labels = document.querySelectorAll("label");
-        //run through all the label elements
+        // Run through all the label elements
         for (var i = 0; i < labels.length; i++) {
-            //if the inner html of the label includes ''assesment' run the following javaScript
+            // If the inner html of the label includes "assesment" run the following javaScript
             if (labels[i].innerHTML.indexOf("Assessment") !== -1) {
-                //disable the sibling element imediatly before this label
+                // Disable the sibling element imediatly before this label
                 labels[i].previousElementSibling.disabled = true;
-                //set the assesmentLabel variable equal to i (the label reference associated with assessments)
+                // Set the assesmentLabel variable equal to i (the label reference associated with assessments)
                 assesmentLabel = i;
             }
         }
-        //set an on click function to the Content Areas checkbox
-        document.getElementById('content_id').addEventListener("click", function () {
-            //for the assesment label, force the ceckbox to be unchecked even on click of the parent checkbox
+        // Set an on click function to the Content Areas checkbox
+        document.getElementById("content_id").addEventListener("click", function () {
+            // For the assesment label, force the ceckbox to be unchecked even on click of the parent checkbox
             labels[assesmentLabel].previousElementSibling.checked = false;
         });
-        //for all setting listed in the settings array run the following javaScript
+        // For all setting listed in the settings array run the following javaScript
         for (var i = 0; i < settings.length; i++) {
-            //create a variable for the current setting's checkbox ID
+            // Create a variable for the current setting's checkbox ID
             var settingsCheckbox = document.getElementById(settings[i]);
-            //disable the checkbox
+            // Disable the checkbox
             settingsCheckbox.disabled = true;
-            //force the checbox to be unchecked
+            // Force the checbox to be unchecked
             settingsCheckbox.checked = false;
         }
     }

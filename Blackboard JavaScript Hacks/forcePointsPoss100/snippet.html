@@ -1,19 +1,15 @@
-<script type="text/javascript">
+<script>
 setTimeout(function () {
-    //set page title variable
-    pageTitle = document.getElementById('pageTitleText').innerHTML
-
-    //for the page titles 'Create Grade Column' and 'Edit Column' force the points possiable to 100 and set to read only
-    if (pageTitle.indexOf("Create Grade Column") > -1 || pageTitle.indexOf("Edit Column") > -1) {
-        document.getElementById('pointsDisplay').value = 100;
-        document.getElementById('pointsDisplay').readOnly = true;
+    // For the page titles "Create Grade Column" and "Edit Column" force the points possiable to 100 and set to read only
+    if (document.getElementById("pageTitleText").innerHTML.indexOf("Create Grade Column") > -1 || document.getElementById("pageTitleText").innerHTML.indexOf("Edit Column") > -1) {
+        document.getElementById("pointsDisplay").value = 100;
+        document.getElementById("pointsDisplay").readOnly = true;
     }
 
-    //for the page title 'Create Assignment' (when creating a new BlackBoard assignment) force the points possiable to 100 and set to read only
-    if (pageTitle.indexOf("Create Assignment") > -1) {
-        document.getElementById('possible').value = 100;
-        document.getElementById('possible').readOnly = true;
+    // For the page title "Create Assignment" (when creating a new BlackBoard assignment) force the points possiable to 100 and set to read only
+    if (document.getElementById("pageTitleText").innerHTML.indexOf("Create Assignment") > -1) {
+        document.getElementById("possible").value = 100;
+        document.getElementById("possible").readOnly = true;
     }
-
 }, 100);
 </script>

@@ -1,0 +1,136 @@
+<script>
+// Check the page title and kick off the script if page title includes "Grade Centre"
+if (document.getElementById("pageTitleText").innerHTML.indexOf("Grade Centre") > -1) {
+
+    // Define veriables within the scope of the "Grade Centre" page
+    var gjDropdownID = [];
+
+    // Function used to force the script to wait for a particular element to be available before running
+    function waitForElement(elementId, callBack) {
+        window.setTimeout(function () {
+            var element = document.getElementById(elementId);
+            if (element) {
+                callBack(elementId, element);
+            } else {
+                waitForElement(elementId, callBack);
+            }
+        }, 100)
+    }
+
+    // Function to locate the GJ and/or RGJ columns and populate the gjDropdownID array with their IDs
+    function findGJColumns() {
+
+        // Define variables within the scope of the "findGJColumns" function
+        var column = document.getElementById("table1_header").childNodes[1].childNodes[1].childNodes;
+        var columnID = [];
+
+        for (i = 0 ; i < column.length ; i++) {
+            // Populate the columnID array with the IDs of all columns with an valid ID
+            if (column[i].id !== undefined) {
+                columnID.push(column[i].id);
+            }
+        }
+
+        // Loop through the columnID array
+        for (i = 0 ; i < columnID.length ; i++) {
+            // Only run script if the columnID has 2 valid child nodes
+            if (document.getElementById(columnID[i]).childNodes[1] !== undefined) {
+                //document.getElementById(columnID[i]).childNodes[1].childNodes[1].childNodes[1].setAttribute("onclick","");
+                // Set the columnTitle variable = to the column's title
+                columnTitle = document.getElementById(columnID[i]).childNodes[1].childNodes[1].childNodes[1].title;
+                // Populate the gjDropdownID array if the columnTitle begins with "GJ - " or "R.G.J - "
+                if (columnTitle.startsWith("GJ - ") == true || columnTitle.startsWith("R.G.J - ") == true) {
+                    gjDropdownID.push("cmlink_h" + columnID[i].slice(7));
+                }
+            }
+        }
+    }
+
+    // Function to add the onclick attribute to all GJ and RGJ dropdown links
+    function setGJOnClick() {
+        // Loop through the gjDropdownID array
+        for (i = 0 ; i < gjDropdownID.length ; i++) {
+            // Add the onclick = "hideGJDelete()" attribute to the GJ/RJG dropdown link
+            document.getElementById(gjDropdownID[i]).setAttribute("onclick", "hideGJDelete()");
+            // Remove the mouseover event listener added earlier as it is only needed once and will cause performance issues if not removed
+            document.getElementById(gjDropdownID[i]).removeEventListener("mouseover", function () {
+                setGJOnClick();
+            })
+        }
+    }
+
+    // Function to remove the "Delete Column" link from GJ/RGJ columns
+    // This function will find all links with a title of "Delete Column" and remove the first one
+    // This works as it is only called when a GJ/RJG dropdown link is clicked
+    function hideGJDelete() {
+        document.querySelectorAll("a[title='Delete Column'")[0].parentNode.hidden = true;
+    }
+
+    // The following function is used to monitor when the use scrolls horizontally and re-run the script
+    function setColumnTitleObserver() {
+        // Select the node that will be observed for mutations
+        var targetNode = document.getElementById("cell_0_3").childNodes[1].childNodes[1].childNodes[1];
+        // Callback function to execute when mutations are observed
+        var callback = function (mutationsList) {
+            // Remove the onlick attribute from previous GJ dropdowns after a horizontal scroll as the header ID's will have changed and GJ column moved
+            for (i = 0 ; i < gjDropdownID.length ; i++) {
+                document.getElementById(gjDropdownID[i]).setAttribute("onclick", "");
+            }
+            // Clear the gjDropdownID array
+            gjDropdownID = [];
+            // Locate the new position of GJ/RGJ columns and populate the gjDropdownID array
+            findGJColumns();
+            // Set the mouseover event again on any GJ/RGJ columns
+            for (i = 0 ; i < gjDropdownID.length ; i++) {
+                document.getElementById(gjDropdownID[i]).addEventListener("mouseover", function () {
+                    setGJOnClick();
+                })
+            }
+        };
+        var observerObject = new MutationObserver(callback);
+
+        // Start observing the target node for configured mutations
+        observerObject.observe(targetNode, {
+            attributes: true,
+        });
+    }
+
+
+    // Function to monitor when the screen is resized as this stopped the script from running
+    var addEvent = function (object, type, callback) {
+        if (object == null || typeof (object) == 'undefined') return;
+        if (object.addEventListener) {
+            object.addEventListener(type, callback, false);
+        } else if (object.attachEvent) {
+            object.attachEvent("on" + type, callback);
+        } else {
+            object["on" + type] = callback;
+        }
+    };
+
+    // Function to kick of the main bulk of JavaScript
+    function masterGJDeleteFunction() {
+        // Wait for the table headers to load before continuing
+        waitForElement("cmlink_h1", function () {
+            gjDropdownID = [];
+            // Populate the gjDropdownID array
+            findGJColumns();
+
+            // Force the setGJOnClick function to run when a GJ/RJG dropdown link is hovered over
+            //This is essential as the first time a dropdown link is hovered over, the page recreates the link's attributes dynamically
+            for (i = 0 ; i < gjDropdownID.length ; i++) {
+                document.getElementById(gjDropdownID[i]).addEventListener("mouseover", function () {
+                    setGJOnClick();
+                })
+            }
+            setColumnTitleObserver();
+        })
+    }
+
+    // Event monitor to set the GJFunction to run when the winfows is resized as resizing stoips the script from running
+    addEvent(window, "resize", masterGJDeleteFunction);
+
+    // Start the main script
+    masterGJDeleteFunction();
+}
+</script>

@@ -1,0 +1,12 @@
+<hackpackage>
+  <name>Block Grade Journey Column Deletion</name>
+  <identifier>blockGJColumnDelete</identifier>
+  <description>Stops Users from Deleting the Grade Journey and Resit GJ Columns</description>
+  <version>1</version>
+  <developerName>Luke Rawlings</developerName>
+  <developerInstitution>Bath Spa University</developerInstitution>
+  <developerEmail>l.rawlings@bathspa.ac.uk</developerEmail>
+  <hook>jsp.topFrame.start</hook>
+  <restrictions/>
+  <resources/>
+</hackpackage>
