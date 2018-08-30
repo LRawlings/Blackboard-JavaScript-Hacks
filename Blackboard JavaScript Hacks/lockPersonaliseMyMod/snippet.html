@@ -1,0 +1,55 @@
+<script>
+// Only run this javaScript if page title is = "Personalise: My Modules"
+if (document.getElementById("pageTitleText") !== undefined && document.getElementById("pageTitleDiv") !== null) {
+    if (document.getElementById("pageTitleText").innerHTML.indexOf("Personalise: My Modules")) {
+
+        // Function to set the course name checkbox the same as the course ID check box each time course ID is clicked
+        function autoCheck(courseIdCellId) {
+            if (document.getElementById(courseIdCellId).firstElementChild.checked === true) {
+                document.getElementById(courseIdCellId).previousElementSibling.firstElementChild.checked = true;
+            } else {
+                document.getElementById(courseIdCellId).previousElementSibling.firstElementChild.checked = false;
+            }
+        }
+
+        // Create an array containing each table
+        var tables = document.querySelectorAll("table[id^='blockAttributes_table_jsListFULL_']");
+
+        // Run a function for each of the tables
+        for (var i = 0; i < tables.length; i++) {
+
+            // Create an array contaiting each header
+            var headers = tables[i].querySelectorAll("thead > tr > th");
+
+            // Run a function for each of the headers
+            for (var j = 0; j < headers.length; j++) {
+
+                // Hide the course name header
+                if (headers[j].innerHTML === "Course Name") {
+                    headers[j].style.display = "none";
+                }
+                // Rename the Course ID Header
+                if (headers[j].innerHTML === "Course ID") {
+                    headers[j].innerHTML = "Show/Hide Course";
+                }
+            }
+
+            //Create an array containing each row in the table
+            var rows = tables[i].querySelectorAll("tbody > tr");
+
+            // Run a function for each of the rows
+            for (k = 0; k < rows.length; k++) {
+
+                // Hide the course name checkbox
+                var courseNameCell = rows[k].querySelectorAll('td[id^="miniListElement-showcoursename:"]');
+                var courseIdCell = rows[k].querySelectorAll('td[id^="miniListElement-showcourseid:"]');
+                var courseIdCellId = courseIdCell[0].id
+                courseNameCell[0].style.display = "none";
+
+                // Set a on click function to run eacj time the course ID checkbox is clicked
+                courseIdCell[0].setAttribute('onclick', 'autoCheck("' + courseIdCellId + '")');
+            }
+        }
+    }
+}
+</script>

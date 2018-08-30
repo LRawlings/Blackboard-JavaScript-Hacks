@@ -3,7 +3,7 @@ setTimeout(function () {
     // Only run this javaScript if the URL contains "cp_copy_content"
     if (window.location.href.indexOf("cp_copy_content") > -1) {
         // Create an array "settings" with the ID's of all the settings we wish to lock down
-        var settings = ["gradebookItems_id", "membership", "settings_id", "availability_id", "bannerImage_id", "allow_guests_id", "allow_observers_id", "duration_id", "enrollment_id", "language_pack_id", "navSettings_id"];
+        var settings = ["gradebookItems_id", "membership", "settings_id", "availability_id", "allow_guests_id", "allow_observers_id", "duration_id", "enrollment_id", "language_pack_id", "navSettings_id"];
         // Create an array of all the 'label' elements on the page
         var labels = document.querySelectorAll("label");
         // Run through all the label elements

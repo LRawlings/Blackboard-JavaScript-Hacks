@@ -1,117 +1,121 @@
 <script type="text/javascript">
-
-// Only run this JavaScript if the page title is "Edit Weighted Column"
-if (document.getElementById("pageTitleText").innerHTML.indexOf("Edit Weighted Column") > -1) {
-
-    // Function to force the browser to wait for a speific element to be available before running the inclosed JavaScript
-    function waitForElement(elementId, callBack) {
-        window.setTimeout(function () {
-            var element = document.getElementById(elementId);
-            if (element) {
-                callBack(elementId, element);
-            } else {
-                waitForElement(elementId, callBack);
-            }
-        }, 100)
-    }
-
-    // Wait for element with ID "descriptiontext_toolbargroup" to be available before running
-    waitForElement("descriptiontext_toolbargroup", function () {
-
-        // Set the columnName variable equal to the column name
-        var columnName = document.getElementById("columnName").value;
-        
-        // If the column name begins with either "GJ - " or "R.G.J - "" run the fucntion
-        if (columnName.startsWith("GJ - ") || (columnName.startsWith("R.G.J - "))) {
-
-            // Set the columnName field to read only
-            document.getElementById("columnName").readOnly = true;
-            // Hide the grade journey display name field
-            document.getElementById("gradebookDisplayName").parentElement.parentElement.hidden = true;
-            // Hide the "Primary Display" secton
-            document.getElementById("help_schema").parentElement.parentElement.hidden = true;
-            // Hide the "Secondary Display" secton
-            document.getElementById("help_secondarySchema").parentElement.parentElement.hidden = true;
-            // Hide the Description text box
-            document.getElementById("descriptiontext_tbl").hidden = true;
-            // Add an ID to the dicription label so it can be hidden
-            document.getElementsByClassName("label label-stack")[0].setAttribute("id", "labelId");
-            // Hide the Dscription label
-            document.getElementById("labelId").firstElementChild.hidden = "true";
-            // Hide the "Categories to Select" section for culumn selections
-            document.getElementById("prms_left_select3").parentElement.hidden = "true";
-            // Add an ID to the  "Categories to Select" section's arrow so it can be hidden
-            document.getElementsByClassName("cumul_arrows")[1].setAttribute("id", "arrowId");
-            // Hide the "Categories to Select" section's arrow
-            document.getElementById("arrowId").hidden = "true";
-            // Hide the entile Options section
-            document.getElementById("step4").hidden = "true";
-
-            // Create an array of all the columns listed in the "Columns to Select" section
-            var columnList = document.getElementById("prms_left_select").childNodes;
-
-            // If the column name is either Total or Weighted Total, hide the option
-            for (i = columnList.length - 1; i >= 0; i--) {
-                if (columnList[i].innerHTML == "Total" || columnList[i].innerHTML == "Weighted Total") {
-                    columnList[i].hidden = "true";
+// Only run this javaScript if the URL contains "manageCumulativeItem"
+if (window.location.href.indexOf("manageCumulativeItem") > -1) {
+    // Only run this JavaScript if the page title is "Edit Weighted Column"
+    if (document.getElementById("pageTitleText").innerHTML.indexOf("Edit Weighted Column") > -1) {
+    
+        // Function to force the browser to wait for a speific element to be available before running the inclosed JavaScript
+        function waitForElement(elementId, callBack) {
+            window.setTimeout(function () {
+                var element = document.getElementById(elementId);
+                if (element) {
+                    callBack(elementId, element);
+                } else {
+                    waitForElement(elementId, callBack);
                 }
-            }
-
-            // Each time the user selects an option from "Coluimns to Select" section
-            // It will check if the column's points possiable is set to 100
-            // If not, it will alert the user to check the culmns settings
-            document.getElementById("prms_left_select").onchange = function () {
-
-                // Function to force the browser to wait a little longer before running the inclosed code
-                function waitForElementSlow(elementId, callBack) {
-                    window.setTimeout(function () {
-                        var element = document.getElementById(elementId);
-                        if (element) {
-                            callBack(elementId, element);
-                        } else {
-                            waitForElement(elementId, callBack);
-                        }
-                    }, 150)
-                }
-
-                waitForElementSlow("colprev", function () {
-                    var pointsPoss = document.getElementById("colprev").innerHTML;
-                    if (pointsPoss.endsWith("Points Possible:100</p>") != true) {
-                        alert("This column's Points Possiable value is not 100. Please correct this before mapping the column");
-                    }
-                })
-            };
-
-            // Function to force the mapped collumn weights to 100% and lock them to read only
-            function setWeight() {
-                var weightNo = [];
-                // Create variable for all columns in the right hand section "Selectec Columns"
-                var columns = document.getElementById("itemlist").childNodes;
-                // For each columns, grab the number from the end of each ID and push it into the weightNo array
-                for (i = 0; i < columns.length -1; i++) {
-                    weightNo.push(columns[i].id.slice(12));
-                }
-                // For each column in the right hand section, force the value to 100% and set to read only
-                for (i = 0; i < weightNo.length; i++) {
-                    weightID = "itemWeight" + weightNo[i];
-                    document.getElementById(weightID).value = 100;
-                    document.getElementById(weightID).readOnly = true;
-                    // Update "Total Weight" underneither the right hand panel (this is a built in function, not written by us)
-                    updateWeight()
-                    }
-            }
-
-            // Run the setWeight fucntion
-            setWeight();
-
-            // Add an ID of "arrowId1" to the first element with a class of "cumul_arrows" so we can add an OnClick event
-            document.getElementsByClassName("cumul_arrows")[0].setAttribute("id", "arrowId1");
-
-            // Add the setWeight function to run again every time the arrow is clicked
-            document.getElementById("arrowId1").onclick = function () {
-                setWeight()
-            }
+            }, 100)
         }
-    })
+    
+        // Wait for element with ID "descriptiontext_toolbargroup" to be available before running
+        waitForElement("descriptiontext_toolbargroup", function () {
+    
+            // Set the columnName variable equal to the column name
+            var columnName = document.getElementById("columnName").value;
+            
+            // If the column name begins with either "GJ - " or "R.G.J - "" run the fucntion
+            if (columnName.startsWith("GJ - ") || (columnName.startsWith("R.G.J - "))) {
+    
+                // Set the columnName field to read only
+                document.getElementById("columnName").readOnly = true;
+                // Hide the grade journey display name field
+                document.getElementById("gradebookDisplayName").parentElement.parentElement.hidden = true;
+                // Hide the "Primary Display" secton
+                document.getElementById("help_schema").parentElement.parentElement.hidden = true;
+                // Hide the "Secondary Display" secton
+                document.getElementById("help_secondarySchema").parentElement.parentElement.hidden = true;
+                // Hide the Description text box
+                document.getElementById("descriptiontext_tbl").hidden = true;
+                // Add an ID to the dicription label so it can be hidden
+                document.getElementsByClassName("label label-stack")[0].setAttribute("id", "labelId");
+                // Hide the Dscription label
+                document.getElementById("labelId").firstElementChild.hidden = "true";
+                // Hide the "Categories to Select" section for culumn selections
+                document.getElementById("prms_left_select3").parentElement.hidden = "true";
+                // Add an ID to the  "Categories to Select" section's arrow so it can be hidden
+                document.getElementsByClassName("cumul_arrows")[1].setAttribute("id", "arrowId");
+                // Hide the "Categories to Select" section's arrow
+                document.getElementById("arrowId").hidden = "true";
+                // Hide the entile Options section
+                document.getElementById("step4").hidden = "true";
+                // Hide the entile Options section
+                document.getElementById("runningYes").parentElement.parentElement.parentElement.hidden = "true";
+    
+                // Create an array of all the columns listed in the "Columns to Select" section
+                var columnList = document.getElementById("prms_left_select").childNodes;
+    
+                // If the column name is either Total or Weighted Total, hide the option
+                for (i = columnList.length - 1; i >= 0; i--) {
+                    if (columnList[i].innerHTML == "Total" || columnList[i].innerHTML == "Weighted Total") {
+                        columnList[i].hidden = "true";
+                    }
+                }
+    
+                // Each time the user selects an option from "Coluimns to Select" section
+                // It will check if the column's points possiable is set to 100
+                // If not, it will alert the user to check the culmns settings
+                document.getElementById("prms_left_select").onchange = function () {
+    
+                    // Function to force the browser to wait a little longer before running the inclosed code
+                    function waitForElementSlow(elementId, callBack) {
+                        window.setTimeout(function () {
+                            var element = document.getElementById(elementId);
+                            if (element) {
+                                callBack(elementId, element);
+                            } else {
+                                waitForElement(elementId, callBack);
+                            }
+                        }, 150)
+                    }
+    
+                    waitForElementSlow("colprev", function () {
+                        var pointsPoss = document.getElementById("colprev").innerHTML;
+                        if (pointsPoss.endsWith("Points Possible:100</p>") != true) {
+                            alert("'Points Possible' must be set to 100 before mapping the Grade Journey column. Please review the column information for this assignment in Grade Center before continuing to map.");
+                        }
+                    })
+                };
+    
+                // Function to force the mapped collumn weights to 100% and lock them to read only
+                function setWeight() {
+                    var weightNo = [];
+                    // Create variable for all columns in the right hand section "Selectec Columns"
+                    var columns = document.getElementById("itemlist").childNodes;
+                    // For each columns, grab the number from the end of each ID and push it into the weightNo array
+                    for (i = 0; i < columns.length -1; i++) {
+                        weightNo.push(columns[i].id.slice(12));
+                    }
+                    // For each column in the right hand section, force the value to 100% and set to read only
+                    for (i = 0; i < weightNo.length; i++) {
+                        weightID = "itemWeight" + weightNo[i];
+                        document.getElementById(weightID).value = 100;
+                        document.getElementById(weightID).readOnly = true;
+                        // Update "Total Weight" underneither the right hand panel (this is a built in function, not written by us)
+                        updateWeight()
+                        }
+                }
+    
+                // Run the setWeight fucntion
+                setWeight();
+    
+                // Add an ID of "arrowId1" to the first element with a class of "cumul_arrows" so we can add an OnClick event
+                document.getElementsByClassName("cumul_arrows")[0].setAttribute("id", "arrowId1");
+    
+                // Add the setWeight function to run again every time the arrow is clicked
+                document.getElementById("arrowId1").onclick = function () {
+                    setWeight()
+                }
+            }
+        })
+    }
 }
 </script>

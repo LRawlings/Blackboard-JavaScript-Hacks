@@ -1,0 +1,11 @@
+<hackpackage>
+  <name>Custom My Modules Module</name>
+  <identifier>customMyModules</identifier>
+  <description>Customise the &quot;My Modules&quot; Module to enable collapsible divs and better groupings</description>
+  <version>1</version>
+  <developerName>Luke Rawlings</developerName>
+  <developerInstitution>Bath Spa University</developerInstitution>
+  <hook>jsp.topFrame.start</hook>
+  <restrictions/>
+  <resources/>
+</hackpackage>

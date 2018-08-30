@@ -1,0 +1,332 @@
+<script type="text/javascript">
+// Only run if the My Modules tab has a class of active
+if (document.getElementById("My Modules").className && new RegExp("(^|\\s)" + "active" + "(\\s|$)").test(document.getElementById("My Modules").className) === true) {
+
+    // Function used to force the script to wait for
+    // a particular element to be available before running
+    function waitForElementSpecific(elementId, callBack) {
+        window.setTimeout(function () {
+            var element = document.getElementById(elementId);
+            if (element) {
+                callBack(elementId, element);
+            } else {
+                waitForElementSpecific(elementId, callBack);
+            }
+        }, 100);
+    }
+
+    waitForElementSpecific("_4_1termCourses_noterm", function () {
+
+        document.getElementById("module:_4_1").style.display = "none";
+
+        var customModuleListHTML = "<div id='customModuleList' class='portlet'> <h2> <span class='moduleTitle'>My Modules</span> </h2> </div>";
+
+        document.getElementById("module:_4_1").insertAdjacentHTML("afterend", customModuleListHTML);
+
+        // Re-Add the edit icon
+        var editControl = document.getElementById("module:_4_1").children[0].outerHTML;
+
+
+        document.getElementById("customModuleList").insertAdjacentHTML("afterbegin", editControl);
+
+        var modListDiv = document.getElementById("_4_1termCourses_noterm").children;
+
+        // List of roles by code and friendly name
+
+        function Role(name, code) {
+            this.Name = name;
+            this.Code = code;
+        }
+
+        var roles = [];
+
+        function Year(short, long) {
+            this.Short = short;
+            this.Long = long;
+        }
+
+        var years = [];
+
+        function ModuleItem(name, year, role, type) {
+            this.Name = name;
+            this.Year = year;
+            this.Role = role;
+            this.Type = type;
+        }
+
+        var modulesList = [];
+
+        // Populate the Role object array
+        var string = "Courses where you are: ";
+        for (i = 0; i < modListDiv.length; i+= 1) {
+            if (modListDiv[i].innerHTML.indexOf(string) != -1) {
+                var roleName = modListDiv[i].innerHTML.slice(23);
+                var roleCode = roleName.replace(/\s+/g, "").toLowerCase();
+                roles.push(new Role(roleName, roleCode));
+            }
+        }
+
+        // Populate the modulesList Opject with Name, Year and Role
+        roles.forEach(function (role) {
+            var oldHeading = "Courses where you are: " + role.Name;
+
+            for (i = 0; i < modListDiv.length; i+=1) {
+                if (modListDiv[i].innerHTML.indexOf(oldHeading) != -1) {
+                    for (x = 0; modListDiv[(i + 1)].children[x] !== undefined; x+=1) {
+
+                        var tempRoleCode = role.Code;
+                        // Determine if a course or a module
+                        var courseID = modListDiv[i + 1].children[x].children[1].innerHTML.split(/^(.*?)\: /)[1];
+                        var courseType = undefined;
+                        if(courseID){
+                            if (courseID.startsWith("CS") === true) {
+                                courseType = "Course";
+                                tempRoleCode = "N/A";
+                            }
+                            else {
+                                courseType = "Module";
+                            }
+                        }
+
+
+                        // Populate the Year Object array
+                        // Strip the course ID from the begining of name
+
+                        if (modListDiv[i + 1].children[x].children[1].innerHTML.indexOf(": ") != -1) {
+                            modListDiv[i + 1].children[x].children[1].innerHTML = modListDiv[i + 1].children[x].children[1].innerHTML.split(/: (.+)/)[1];
+                        }
+
+                        var modInner = modListDiv[i + 1].children[x].children[1].innerHTML;
+
+                        var temp = modInner.split("]")[0];
+                        var temp2 = modInner.split(" [")[0];
+                        var yearLong1 = temp.substring(temp.length - 9);
+                        var yearLong2 = temp2.substring(temp2.length - 9);
+                        var firstHalf = [];
+                        var secondHalf = [];
+                        var yearShort = [];
+                        var tempArray = [];
+                        if (yearLong1.indexOf("-20") != -1) {
+                            firstHalf = yearLong1.slice(2, 4);
+                            secondHalf = yearLong1.slice(7, 9);
+                            yearShort = firstHalf + secondHalf;
+                            years.forEach(function (year) {
+                                tempArray.push(year.Long);
+                            });
+                            if (tempArray.indexOf(yearLong1) == -1) {
+                                years.push(new Year(yearShort, yearLong1));
+                            }
+                        } else if (yearLong2.indexOf("-20") != -1) {
+                            firstHalf = yearLong2.slice(2, 4);
+                            secondHalf = yearLong2.slice(7, 9);
+                            yearShort = firstHalf + secondHalf;
+                            years.forEach(function (year) {
+                                tempArray.push(year.Long);
+                            });
+                            if (tempArray.indexOf(yearLong2) == -1) {
+                                years.push(new Year(yearShort, yearLong2));
+                            }
+                        }
+
+                        var modOuter = modListDiv[i + 1].children[x].children[1].outerHTML;
+                        years.forEach(function (year) {
+                            if (modOuter.indexOf(year.Long) != -1) {
+                                // If a module has an announcment or user has switched on
+                                // other viewing options, include in the modulesList
+                                // push else just include the module link
+                                if (modListDiv[i + 1].children[x].children[2] !== undefined) {
+                                    var modToPush = modOuter;
+                                    var f = 2;
+                                    while (modListDiv[i + 1].children[x].children[f] !== undefined) {
+                                        modToPush += modListDiv[i + 1].children[x].children[f].outerHTML;
+                                        f++;
+                                    }
+                                    modulesList.push(new ModuleItem(modToPush, year.Short, tempRoleCode, courseType));
+                                } else {
+                                    modulesList.push(new ModuleItem(modOuter, year.Short, tempRoleCode, courseType));
+                                }
+                            }
+                        });
+
+                        // Second loop to capture 'other' modules Split
+                        // the mod string into an array using a space
+                        // as the (each new word is an entry in the array)
+                        var modSplit = modOuter.split(",");
+                        var count = 0;
+                        // Loop through each word in the mod string
+                        modSplit.forEach(function (z) {
+                            // For each word, also loop through each year and
+                            // if it hits a match, increese count by 1
+                            years.forEach(function (year) {
+                                if (z.indexOf(year.Long) != -1) {
+                                    count++;
+                                }
+                            });
+                        });
+
+                        // If the count is still 0, the mod did not match
+                        // a year so add to modulesList as year 'other'
+                        if (count === 0) {
+                            // If a module has an announcment or userhas switched
+                            // on other viewing options, include in the
+                            // modulesList push else just include the module link
+                            if (modListDiv[i + 1].children[x].children[2] !== undefined) {
+                                var modToPush = modOuter;
+                                var f = 2;
+                                while (modListDiv[i + 1].children[x].children[f] !== undefined) {
+                                    modToPush += modListDiv[i + 1].children[x].children[f].outerHTML;
+                                    f++;
+                                }
+                                modulesList.push(new ModuleItem(modToPush, "other", tempRoleCode, courseType));
+                            } else {
+                                modulesList.push(new ModuleItem(modOuter, "other", tempRoleCode, courseType));
+                            }
+                        }
+
+                    }
+                }
+            }
+        });
+
+        // Sort the Years object array based on short
+        // property (highest to lowest). Add the 'Other'
+        // item to the end of array after sorting
+        years.sort(function (a, b) { return (a.Short < b.Short) ? 1 : ((b.Short < a.Short) ? -1 : 0); });
+        years.push(new Year("other", "Other"));
+
+        modulesList.sort(function (a, b) { return (a.Year < b.Year) ? 1 : ((b.Year < a.Year) ? -1 : 0); });
+
+
+        // Function for inserting a collapsable role specific headings + divs and an un-ordered lists
+        function insertModuleHTML(divId1, string, chevronId, divId2) {
+            document.getElementById("customModuleList").insertAdjacentHTML("beforeend", "<div style=\"padding-left:10px;\" id=" + divId1 + "><h3 class='collapsible'>" + string + "<span id=" + chevronId + " class='glyphicon glyphicon-chevron-down' style='font-size: 15px;'></span></h3><div id=" + divId2 + " style='display: none;'></div></div><br>");
+        }
+
+        // Function for inserting a collapsable
+        // YEAR heading + divs and an un-ordered list
+        function insertYearHTML(masterId, divId1, string, chevronId, ulId) {
+            document.getElementById(masterId).insertAdjacentHTML("beforeend", "<div id=" + divId1 + "><h4 class='collapsible'>" + string + "<span id=" + chevronId + " class='glyphicon glyphicon-chevron-down' style='font-size: 15px;'></span></h4><ul id=" + ulId + " style='display: none;' class='portletList-img'></ul></div>");
+        }
+
+        // Function for inserting individual module items
+        function insertModuleItems(divId2NoQuotes, ulId) {
+            document.getElementById(ulId).insertAdjacentHTML("beforeend", "<li class='modLists'>" + divId2NoQuotes.Name + "</li>");
+        }
+
+        // Insert Courses Heading
+        insertModuleHTML("coursesDiv", "Programme ", "coursesChevron", "coursesModules");
+
+        // Insert each individual module items
+        modulesList.forEach(function (ModuleItem) {
+            if (ModuleItem.Type == "Course") {
+                insertModuleItems(ModuleItem, "coursesModules");
+            }
+        });
+
+        // Insert the Role headings
+        roles.forEach(function (roles) {
+            if (modulesList.filter(function (item) { return item.Role === roles.Code;}).length > 0) {
+                var string = "Modules where you are: " + roles.Name + " ";
+                insertModuleHTML(roles.Code + "Div", string, roles.Code + "Chevron", roles.Code + "Modules");
+
+                years.forEach(function (year) {
+                    if (modulesList.filter(function (item) { return item.Year === year.Short && item.Role === roles.Code;}).length > 0) {
+                        insertYearHTML(roles.Code + "Modules", roles.Code + year.Short + "Div", year.Long + " ", roles.Code + year.Short + "Chevron", roles.Code + year.Short + "Ul");
+                    }
+                });
+
+            }
+
+        });
+
+        // Insert each individual module items
+        modulesList.forEach(function (ModuleItem) {
+            if (ModuleItem.Type == "Module") {
+                insertModuleItems(ModuleItem, ModuleItem.Role + ModuleItem.Year + "Ul");
+            }
+        });
+
+        // Fucntion to expand colaplisable divs
+        // and change the down chevron to an up chevron
+        function expandDiv(modId, chevronId) {
+            document.getElementById(modId).setAttribute("style", "display: block; overflow: hidden;");
+            document.getElementById(chevronId).removeAttribute("class", "glyphicon glyphicon-chevron-down");
+            document.getElementById(chevronId).setAttribute("class", "glyphicon glyphicon-chevron-up");
+        }
+
+        // Variables and code for collapsible elements
+        var coll = document.getElementsByClassName("collapsible");
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                    this.children[0].removeAttribute("class", "glyphicon glyphicon-chevron-up");
+                    this.children[0].setAttribute("class", "glyphicon glyphicon-chevron-down");
+                } else {
+                    content.style.display = "block";
+                    this.children[0].removeAttribute("class", "glyphicon glyphicon-chevron-down");
+                    this.children[0].setAttribute("class", "glyphicon glyphicon-chevron-up");
+                }
+            });
+        }
+
+
+
+
+        if (modulesList.length !== 0) {
+            // Expand the Course Div
+            expandDiv("coursesModules", "coursesChevron");
+            // Expand the highest level Role (within modules not courses)
+            for (i = 0; i < roles.length; i++) {
+                if (modulesList.filter(function (item) { return item.Role === roles[i].Code;}).length > 0) {
+                    expandDiv(roles[i].Code + "Modules", roles[i].Code + "Chevron");
+                    break;
+                }
+            }
+
+            // Expand the highest level Year for each role
+            roles.forEach(function (Role) {
+                for (i = 0; i < years.length; i++) {
+                    if (modulesList.filter(function (item) { return item.Year === years[i].Short && item.Role === Role.Code && item.Type === "Module";}).length > 0) {
+                        expandDiv(Role.Code + years[i].Short + "Ul", Role.Code + years[i].Short + "Chevron");
+                        break;
+                    }
+                }
+            });
+        }
+
+        // Convert the module names to lowercase
+        // (excluding the codes after the '[' chartacter
+        // Also set the preceding codes for courses
+        //to upper case or just the first character
+        var modLists = document.getElementsByClassName("modLists");
+
+        for (i = 0; i < modLists.length; i++) {
+            var modString = modLists[i].firstChild.innerText.substring(0, modLists[i].firstChild.innerText.indexOf("[")).toLowerCase();
+            var secondPartString = modLists[i].firstChild.innerText.substring(modLists[i].firstChild.innerText.indexOf("["));
+            var firstPartString = [];
+            if (modString.startsWith("bsc hons ")) {
+                firstPartString = modString.slice(0, 10).toUpperCase() + modString.slice(10);
+            } else if (modString.startsWith("ba hons ") || modString.startsWith("bs hons ") || modString.startsWith("pg cert ")) {
+                firstPartString = modString.slice(0, 9).toUpperCase() + modString.slice(9);
+            } else if (modString.startsWith("ba-bsc ") || modString.startsWith("pg dip ")) {
+                firstPartString = modString.slice(0, 8).toUpperCase() + modString.slice(8);
+            } else if (modString.startsWith("ba-bs ") || modString.startsWith("pgdip ")) {
+                firstPartString = modString.slice(0, 7).toUpperCase() + modString.slice(7);
+            } else if (modString.startsWith("pgce ") || modString.startsWith("mmus ") || modString.startsWith("mres ")) {
+                firstPartString = modString.slice(0, 6).toUpperCase() + modString.slice(6);
+            } else if (modString.startsWith("msc ") || modString.startsWith("phd ") || modString.startsWith("tda ")) {
+                firstPartString = modString.slice(0, 5).toUpperCase() + modString.slice(5);
+            } else if (modString.startsWith("ma ") || modString.startsWith("ba ") || modString.startsWith("fd ")) {
+                firstPartString = modString.slice(0, 4).toUpperCase() + modString.slice(4);
+            } else {
+                firstPartString = modString.charAt(0).toUpperCase() + modString.slice(1);
+            }
+            modLists[i].firstChild.innerText = firstPartString + secondPartString;
+        }
+    });
+}
+</script>

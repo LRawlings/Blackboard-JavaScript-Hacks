@@ -1,0 +1,12 @@
+<hackpackage>
+  <name>Lock Down Personalise My Modules Page</name>
+  <identifier>lockPersonaliseMyMod</identifier>
+  <description>Stops users from hiding the course ID as this brakes the &apos;Custom My Modules&apos; module</description>
+  <version>1</version>
+  <developerName>Luke Rawlings</developerName>
+  <developerInstitution>Bath Spa University</developerInstitution>
+  <developerEmail>l.rawlings@bathspa.ac.uk</developerEmail>
+  <hook>jsp.topFrame.start</hook>
+  <restrictions/>
+  <resources/>
+</hackpackage>

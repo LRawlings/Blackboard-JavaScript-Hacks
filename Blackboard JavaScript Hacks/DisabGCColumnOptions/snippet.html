@@ -1,22 +1,25 @@
 <script>
-setTimeout(function () {
+ setTimeout(function () {
+// Only run this javaScript if the URL contains "addModifyItemDefinition" or "manageCumulativeItem"
+if (window.location.href.indexOf("addModifyItemDefinition") > -1 || window.location.href.indexOf("manageCumulativeItem") > -1) {
     // Only run the following javaScrip if the page title is "Create Weighted Column", "Create Total Column", "Create Average Column", "Create Minimum/Maximum Column" or "Edit Weighted Column"
     if (document.getElementById("pageTitleText").innerHTML.indexOf("Create Weighted Column") > -1 || document.getElementById("pageTitleText").innerHTML.indexOf("Create Total Column") > -1 || document.getElementById("pageTitleText").innerHTML.indexOf("Create Average Column") > -1 || document.getElementById("pageTitleText").innerHTML.indexOf("Create Minimum/Maximum Column") > -1 || document.getElementById("pageTitleText").innerHTML.indexOf("Edit Weighted Column") > -1) {
         // Force the new anbd existing calculated columns to be included in Grade Center calculations
-        document.getElementById("scorableYes").value = true;
+        document.getElementById("scorableYes").checked = true;;
         document.getElementById("scorableYes").parentElement.disabled = true;
     }
     // Only run the following javaScrip if the page title is 'Create Grade Column', or 'Edit Column'
-    if (document.getElementById("pageTitleText").innerHTML.indexOf("Create Grade Column") > -1 || document.getElementById("pageTitleText").innerHTML.indexOf("Edit Column") > -1) {
+    if (document.getElementById("pageTitleText").innerHTML.indexOf("Create Grade Column") > -1 /*|| document.getElementById("pageTitleText").innerHTML.indexOf("Edit Column") > -1*/) {
         // Force the new and existing grade center columns to be included in Grade Center calculations
-        document.getElementById("scrollableYes").value = true;
+        document.getElementById("scrollableYes").checked = true;;
         document.getElementById("scrollableYes").parentElement.disabled = true
     }
     // Only run the following javaScrip if the page title is "Create Assignment" (new Blackboard assignment)
     if (document.getElementById("pageTitleText").innerHTML.indexOf("Create Assignment") > -1) {
         // Force new assignments to be included in Grade Center calculations
-        document.getElementById("gradingOptions_includeInCalcId").value = "true";
+        document.getElementById("gradingOptions_includeInCalcId").checked = true;;
         document.getElementById("gradingOptions_includeInCalcId").disabled = true;
     }
+}
 }, 100);
 </script>

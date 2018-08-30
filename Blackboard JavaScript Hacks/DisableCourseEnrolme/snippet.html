@@ -1,113 +1,105 @@
 <script>
 setTimeout(function () {
-    // Only run this javaScript if the URL contains "editCourseEnrollment" and the page title includes either MD or CS
-    if (window.location.href.indexOf("editCourseEnrollment") > -1 && (document.getElementById("pageTitleText").innerHTML.indexOf("MD") > -1 || document.getElementById("pageTitleText").innerHTML.indexOf("CS") > -1)) {
+    // Only run this javaScript if the URL contains "editCourseEnrollment" and the page title includes either MD
+    if (window.location.href.indexOf("editCourseEnrollment") > -1 && (document.getElementById("pageTitleText").innerHTML.indexOf("MD") > -1)) {
 
-        // Insert the following CSS into the header
-        document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", ' \
-		<style> \
-		a.close::before { \
-			content: "" !important; \
-		} \
-		\
-		.modalDialog { \
-			position: fixed; \
-			font-family: Arial, Helvetica, sans-serif; \
-			top: 0; \
-			right: 0; \
-			bottom: 0; \
-			left: 0; \
-			background: rgba(0, 0, 0, 0.8); \
-			z-index: 99999; \
-			opacity:0; \
-			-webkit-transition: opacity 400ms ease-in; \
-			-moz-transition: opacity 400ms ease-in; \
-			transition: opacity 400ms ease-in; \
-			pointer-events: none; \
-		} \
-		\
-		.modalDialog:target { \
-			opacity:1; \
-			pointer-events: auto; \
-		} \
-		\
-		.modalDialog > div { \
-			width: 400px; \
-			position: relative; \
-			margin: 10% auto; \
-			padding: 5px 20px 13px 20px; \
-			border-radius: 10px; \
-			background: #fff; \
-			background: -moz-linear-gradient(#fff, #999); \
-			background: -webkit-linear-gradient(#fff, #999); \
-			background: -o-linear-gradient(#fff, #999); \
-		} \
-		\
-		.close { \
-			background: #606061; \
-			color: #FFFFFF; \
-			line-height: 25px; \
-			position: absolute; \
-			right: -12px !important; \
-			opacity: 1 !important; \
-			text-align: center; \
-			top: -10px !important; \
-			width: 24px; \
-			text-decoration: none; \
-			font-weight: bold; \
-			-webkit-border-radius: 12px; \
-			-moz-border-radius: 12px; \
-			border-radius: 12px;-moz-box-shadow: 1px 1px 3px #000; \
-			-webkit-box-shadow: 1px 1px 3px #000; \
-			box-shadow: 1px 1px 3px #000; \
-		} \
-		.close:hover { \
-			background: #00d9ff; \
-		} \
-		\
-		@media only screen and (max-width: 470px) { \
-			.modalDialog > div { \
-				width: 220px; \
-				position: relative; \
-				margin: 10% auto; \
-				padding: 5px 20px 13px 20px; \
-				border-radius: 10px; \
-			} \
-		</style> \
-	');
+        var currentYear = "2018-2019"
 
-        // Insert the following HTML block before the "stepcontent1" element. This block is for the popup "modal"
-        document.getElementById("stepcontent1").insertAdjacentHTML("beforeend", ' \
-		<div id="openModal" class="modalDialog"> \
-			<div> \
-				<a href="#close" title="Close" class="close">X</a> \
-				<h2>How to enrol Additional Tutors</h2> \
-				<p>To enrol additional tutors to this course, please use the  <a href="https://evision.bathspa.ac.uk/" target="_blank">e:vision tool</a> \
-			</div> \
-		</div> \
-	');
+        if (document.getElementById("pageTitleText").innerHTML.indexOf(currentYear) > -1){
 
-        // Insert the following HTML block before the "stepcontent1" element. This block will appear towards the bottom of the page
-        document.getElementById("stepcontent1").insertAdjacentHTML("beforeend", ' \
-		<div> \
-			<h2 class="steptitle">How to enrol Additional Tutors</h2> \
-			<p>To enrol additional tutors to this course, please use the  <a href="https://evision.bathspa.ac.uk/" target="_blank">e:vision tool</a> \
-		</div> \
-	');
+            // Insert the following HTML block before the "stepcontent1" element. This block is for the popup "modal"
+            document.getElementById("stepcontent1").insertAdjacentHTML("beforeend", ' \
+		    <div id="openModal" class="modalDialog"> \
+			    <div id="DisableEnrolmentHelpModel"> \
+				    <a href="#close" title="Close" class="modalClose"><span style="display: none;">X</span></a> \
+			        <div id="contentDisableEnrolmentHelpModel"> \
+                        <h3 id="titleDisableEnrolmentHelpModel">How to enrol Additional Tutors</h3> \
+			            <p>To enrol additional tutors to this course, please use the  <a href="https://evision.bathspa.ac.uk/" target="_blank">e:vision tool.</a> <br>Help on using the tool can be found on <a href="https://bathspa.topdesk.net/tas/public/ssp/content/detail/knowledgeitem?unid=ed616f3d27604535ae535e087a2ff222" target="_blank">Apollo</a> \
+                    </div> \
+                </div> \
+		    </div> \
+	    ');
 
-        // Set the "modal" popup href
-        window.location.href = "#openModal";
+            // Insert the following HTML block before the "step1" element. This block will appear towards the bottom of the page
+            document.getElementById("step1").insertAdjacentHTML("beforebegin", ' \
+		    <div id="stepDisableEnrolmentHelp"> \
+			    <h3 id="steptitleDisableEnrolmentHelp" class="steptitle">How to enrol Additional Tutors</h3> \
+			    <div id="stepcontentDisableEnrolmentHelp"> \
+			        <p>To enrol additional tutors to this course, please use the  <a href="https://evision.bathspa.ac.uk/" target="_blank">e:vision tool.</a> Help on using the tool can be found on <a href="https://bathspa.topdesk.net/tas/public/ssp/content/detail/knowledgeitem?unid=ed616f3d27604535ae535e087a2ff222" target="_blank">Apollo</a> \
+                </div> \
+		    </div> \
+	    ');
 
-        // Set the roleMenu variable equal to the role dropdown menu ID 
-        var rolesMenu = document.getElementById("courseRoleId");
+            // Set the "modal" popup href
+            window.location.href = "#openModal";
 
-        // Set the roles you wish to remove
-        var rolesOptions = ["T", "P", "S"];
+            // Set the roleMenu variable equal to the role dropdown menu ID 
+            var rolesMenu = document.getElementById("courseRoleId");
 
-        // From the end of the rolesMenu options up removing any that are listed on the rolesOptions array
-        for (var i = rolesMenu.length - 1; i >= 0; i--) {
-            if (rolesOptions.indexOf(rolesMenu.options[i].value) !== -1)
-                rolesMenu.remove(i);
+            // Set the roles you wish to remove
+            var rolesOptions = ["T", "P", "S"];
+
+            // From the end of the rolesMenu options up removing any that are listed on the rolesOptions array
+            for (var i = rolesMenu.length - 1; i >= 0; i--) {
+                if (rolesOptions.indexOf(rolesMenu.options[i].value) !== -1)
+                    rolesMenu.remove(i);
+            }
+        }
+
+        // Only run this javaScript if the URL contains "editUser?context=course_modify"
+        if (window.location.href.indexOf("editUser?context=course_modify") > -1) {
+
+            // Populate an array of all the roles listed
+            var roles = document.querySelectorAll("[id^=courseRole]");
+
+            // Set the roles you wish to remove
+            var rolesOptions = ["S", "P", "T"];
+
+            // Loop through all roles and disable any which are listed above
+            for (var i = 0; i < roles.length; i++) {
+                if (rolesOptions.indexOf(document.getElementById("courseRole" + i).value) !== -1) {
+                    document.getElementById("courseRole" + i).disabled = true
+                }
+            }
+
+            // Insert the following HTML block before the "step4" element. This block will appear towards the bottom of the page
+            document.getElementById("step4").insertAdjacentHTML("beforebegin", ' \
+		    <div id="stepDisableEnrolmentHelp"> \
+			    <h3 id="steptitleDisableEnrolmentHelp" class="steptitle">How to enrol Additional Tutors</h3> \
+			    <div id="stepcontentDisableEnrolmentHelp"> \
+			        <p>To enrol additional tutors to this course, please use the  <a href="https://evision.bathspa.ac.uk/" target="_blank">e:vision tool</a> \
+                </div> \
+		    </div> \
+	        ');
+        }
+
+
+
+        // Only run this javaScript if the URL contains "cp_course_role_modify"
+        if (window.location.href.indexOf("cp_course_role_modify") > -1) {
+
+            // Populate an array of all the roles listed
+            var roles = document.querySelectorAll("input[name='courseMembershipRole']");
+
+            // Set the roles you wish to remove
+            var rolesOptions = ["S", "P", "T"];
+
+            // Loop through all roles and disable any which are listed above
+            for (var i = 0; i < roles.length; i++) {
+                if (rolesOptions.indexOf(roles[i].value) !== -1) {
+                    roles[i].disabled = true
+                }
+            }
+
+            // Insert the following HTML block before the "step1" element. This block will appear towards the bottom of the page
+            document.getElementById("step1").insertAdjacentHTML("beforebegin", ' \
+		    <div id="stepDisableEnrolmentHelp"> \
+			    <h3 id="steptitleDisableEnrolmentHelp" class="steptitle">How to enrol Additional Tutors</h3> \
+			    <div id="stepcontentDisableEnrolmentHelp"> \
+			        <p>To enrol additional tutors to this course, please use the  <a href="https://evision.bathspa.ac.uk/" target="_blank">e:vision tool</a> \
+                </div> \
+		    </div> \
+	        ');
         }
     }
 }, 100);
